@@ -39,30 +39,45 @@ for domain_obj in glossary.findall("GlossaryRef"):
 
 for entry_obj in glossary.findall("GlossaryRef"):
 	term_name = entry_obj.find("Term").text.lower()
+	
+	newTerm = gdb.nodes.create(
+		termName = term_name
+	)
+
+	newTerm.relationships.create("", newDomain)
 
 	for concetp_obj in entry_obj.findall("Concept"):
 
 		tokenizer = RegexpTokenizer(r'\w+')
 
-		words = tokenizer.tokenize(concetp_obj)
+		words = tokenizer.tokenize(concetp_obj.text)
+
+		#newString = " ".join(words)
+
+		concepts.append(concetp_obj.text)
+
+		for w in words:
 
 
+		newConcept = gdb.nodes.create(
+			uuid = uuid_num,
 
+		)
 
+		uuid_num += 1
 
-newTerm = gdb.nodes.create(
-	uuid = uuid_num,
-	termName = 
-)
-
-uuid_num += 1
-
-newTerm.relationships.create("", newDomain)
-
-newConcept = gdb.nodes.create()
-
-newConcept.relationships.create("",newTerm)
 
 #Parse 
 
 #Built term to term Relationships 
+matrix = cosine_similarity(tfidf_matrix[], tfidf_matrix)
+
+for row in matrix:
+
+	if :
+		continue
+	else:
+
+		newConcept.relationships.create("",newTerm)
+
+print "Done"
