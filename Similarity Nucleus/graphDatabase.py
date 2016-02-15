@@ -59,6 +59,12 @@ for entry_obj in glossary.findall("GlossaryRef"):
 		for w in words:
 
 
+
+		mean = statistics.mean()
+		conf = stats.norm.interval(0.95, loc=mean, scale=statistics.pstdev())
+
+		thld = 1 - (1*statistics.pstdev()) - conf[0]
+
 		newConcept = gdb.nodes.create(
 			uuid = uuid_num,
 
@@ -72,12 +78,18 @@ for entry_obj in glossary.findall("GlossaryRef"):
 #Built term to term Relationships 
 matrix = cosine_similarity(tfidf_matrix[], tfidf_matrix)
 
+index = 0
+
 for row in matrix:
+	
+	matrix_index = 0
 
-	if :
-		continue
-	else:
+	for element in matrix:
 
-		newConcept.relationships.create("",newTerm)
+		if :
+			continue
+		else:
+
+			newConcept.relationships.create("",newTerm)
 
 print "Done"
