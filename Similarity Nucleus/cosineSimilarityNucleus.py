@@ -22,7 +22,8 @@ uuid_num = 0
 
 #List of each similarity nucleous 
 nucleous_list = []
-
+#List of each conept 
+concept_list = []
 
 #Build Database Elements
 
@@ -66,28 +67,29 @@ for entry_obj in glossary.findall("GlossaryRef"):
 
 	for concetp_obj in entry_obj.findall("Concept"):
 
+		concept_text = concetp_obj.text
+
 		#RegEx for removing puncutation 
 		tokenizer = RegexpTokenizer(r'\w+')
 
 		#Split the concet into individual words
-		words = tokenizer.tokenize(concetp_obj.text)
-
-		#newString = " ".join(words)
+		words = tokenizer.tokenize(concetp_text)
 
 		#Creat a list of concepts 
-		concepts.append(concetp_obj.text)
+		concept_list.append(concetp_text)
 
 		#Creats a list of the subsets of the concept
 		#Starts with the whole concept so that each subsets is compaired against the origional  
-		docs = [concetp_obj.text]
+		docs = [concetp_text]
 
 		#Empty string that each word of the concept is joind to
-		concept_break_down = ""
+		concept_breakdown = ""
 
 		for w in words:
 			concept_break_down = " ".join(w)
 			#Remove the first space from the subset 
-			docs.append(concept_break_down[-1:])
+			docs.append(concept_breakdown[-1:])
+
 
 
 		tfidf_vectorizer = TfidfVectorizer()
@@ -103,16 +105,16 @@ for entry_obj in glossary.findall("GlossaryRef"):
 		conf = stats.norm.interval(0.95, loc=mean, scale=statistics.pstdev())
 
 		#Calculates the nucleous for a given conept 
-		thld = 1 - (1*statistics.pstdev()) - conf[0]
+		threshold = 1 - (1*statistics.pstdev()) - conf[0]
 
 
 		#Add the calculated nucleous to the list
-		nucleous_list.append(thld)
+		nucleous_list.append(threshold)
 
 		#Add the concept into Neo4j 
 		newConcept = gdb.nodes.create(
 			uuid = uuid_num,
-
+			threshold = 
 		)
 
 		#Update the uuid
@@ -122,7 +124,7 @@ for entry_obj in glossary.findall("GlossaryRef"):
 #Parse 
 
 #Built term to term Relationships 
-matrix = cosine_similarity(tfidf_matrix[], tfidf_matrix)
+matrix = cosine_similarity()
 
 index = 0
 
@@ -131,11 +133,14 @@ for row in matrix:
 	matrix_index = 0
 
 	for element in matrix:
-
-		if :
+		#Skip compairing a concept to itself 
+		if index == matrix_index:
 			continue
 		else:
-
+			#Add concept to conept relationships 
 			newConcept.relationships.create("",newTerm)
+			#Incrament indexs 
+			index ++
+			matrix_index ++
 
 print "Done"
