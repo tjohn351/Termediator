@@ -33,6 +33,7 @@ Adds a Glossaries id, origin, url, and domain to Neo4j
 '''
 
 for domain_obj in glossary.findall("GlossaryRef"):
+	domain_id = domain_obj.find("").text
 	origin = domain_obj.find("OriginName").text
 	url    = domain_obj.find("originURL").text
 	domain = domain_obj.find("origionDomain").text
