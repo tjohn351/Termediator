@@ -116,7 +116,8 @@ for entry_obj in glossary.findall("GlossaryRef"):
 		#Add the concept into Neo4j 
 		newConcept = gdb.nodes.create(
 			uuid = uuid_num,
-			threshold = 
+			threshold = threshold,
+			conceptLength = len(words)
 		)
 
 		#Update the uuid
