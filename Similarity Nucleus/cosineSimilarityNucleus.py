@@ -55,7 +55,8 @@ for entry_obj in glossary.findall("GlossaryRef"):
 	term_name = entry_obj.find("Term").text.lower()
 	
 	newTerm = gdb.nodes.create(
-		termName = term_name
+		termName = term_name,
+		termLength = len(term_name)
 	)
 
 
