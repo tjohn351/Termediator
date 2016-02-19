@@ -94,8 +94,7 @@ for entry_obj in glossary.findall("GlossaryRef"):
 		tfidf_vectorizer = TfidfVectorizer()
 	    tfidf_matrix = tfidf_vectorizer.fit_transform(docs)
 	   
-	    #The matrix of the subsets 
-	    #Just look at the elements after the first
+	    #The matrix of the subsets just look at the elements after the first
 	    matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)
 
 	    #Parse the first row of the matrix
