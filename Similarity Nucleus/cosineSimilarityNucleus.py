@@ -1,5 +1,5 @@
-
-
+'''
+'''
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import statistics
@@ -14,10 +14,12 @@ from neo4jrestclient.client import GraphDatabase
 
 #Locations of the Neo4j Database 
 gdb = GraphDatabase("http://localhost:747/db/data/")
+#location of the glossary 
 glossary = etree.parse("glossary.xml")
 
 #RegEx for punctuation removal 
-
+punct = r'\w+'
+#uuid for terms
 uuid_num = 0
 
 #List of each similarity nucleous 
@@ -25,12 +27,13 @@ nucleous_list = []
 #List of each conept 
 concept_list = []
 
+#defines a unique term to term relationship, key value pairs
+unique_termtoterm = {}
+
 #Build Database Elements
 
-'''
-Parses the glossary to get all of the domains
-Adds a Glossaries id, origin, url, and domain to Neo4j
-'''
+#Parses the glossary to get all of the domains
+#Adds a Glossaries id, origin, url, and domain to Neo4j
 
 for domain_obj in glossary.findall("GlossaryRef"):
 	domain_id = domain_obj.find("").text
@@ -45,34 +48,29 @@ for domain_obj in glossary.findall("GlossaryRef"):
 		origionDomain = domain
 	)
 
-'''
-Parses the glossary to get each term and its associated concepts 
-'''
 
+#Parses the glossary to get each term and its associated concepts 
 for entry_obj in glossary.findall("GlossaryRef"):
 	
-
 	term_name = entry_obj.find("Term").text.lower()
 	
 	newTerm = gdb.nodes.create(
 		termName = term_name,
+		glossary = ,
 		termLength = len(term_name)
+
 	)
 
-
 	#Creats the relationship between a term and its accosiated glossary
-
-	newTerm.relationships.create("", newDomain)
-
+	newTerm.relationships.create("", )  #coneptannotation 
 
 	#For each concept of term
-
 	for concetp_obj in entry_obj.findall("Concept"):
 
 		concept_text = concetp_obj.text
 
 		#RegEx for removing puncutation 
-		tokenizer = RegexpTokenizer(r'\w+')
+		tokenizer = RegexpTokenizer(punct)
 
 		#Split the concet into individual words
 		words = tokenizer.tokenize(concetp_text)
@@ -92,23 +90,27 @@ for entry_obj in glossary.findall("GlossaryRef"):
 			#Remove the first space from the subset 
 			docs.append(concept_breakdown[-1:])
 
-
-
+		#transform the subsets into a vectorized matrix
 		tfidf_vectorizer = TfidfVectorizer()
 	    tfidf_matrix = tfidf_vectorizer.fit_transform(docs)
 	   
 	    #The matrix of the subsets 
+	    #Just look at the elements after the first
 	    matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)
 
+	    #Parse the first row of the matrix
+	    for row in matrix:
+	    	for x in row[1:]:
+	    		conList.append(x)
+
 	    #The mean 
-		mean = statistics.mean()
+		mean = statistics.mean(conList)
 
 		#The 95% confidence interval
-		conf = stats.norm.interval(0.95, loc=mean, scale=statistics.pstdev())
+		conf = stats.norm.interval(0.95, loc=mean, scale=statistics.pstdev(conList))
 
 		#Calculates the nucleous for a given conept 
 		threshold = 1 - (1*statistics.pstdev()) - conf[0]
-
 
 		#Add the calculated nucleous to the list
 		nucleous_list.append(threshold)
@@ -123,10 +125,11 @@ for entry_obj in glossary.findall("GlossaryRef"):
 		#Update the uuid
 		uuid_num += 1
 
-
 #Parse 
 
 #Built term to term Relationships 
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform()
 matrix = cosine_similarity()
 
 index = 0
@@ -141,9 +144,18 @@ for row in matrix:
 			continue
 		else:
 			#Add concept to conept relationships 
-			newConcept.relationships.create("",newTerm)
-			#Incrament indexs 
-			index ++
+			newConcept.relationships.create("",)
+
+			if in unique_termtoterm:
+				continue
+			else:
+				.relationships.create()
+				unique_termtoterm.append()
+
+			#Incrament colum index 
 			matrix_index ++
+
+	#Increment row index
+	index ++
 
 print "Done"
