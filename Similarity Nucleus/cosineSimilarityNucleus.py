@@ -49,6 +49,7 @@ for domain_obj in glossary.findall("GlossaryRef"):
 		originDomain = domain
 	)
 
+	newDomain.labels.add("Domain")
 
 # #Parses the glossary to get each term and its associated concepts 
 for entry_obj in glossary.findall("Entry"):
@@ -57,8 +58,10 @@ for entry_obj in glossary.findall("Entry"):
 	
 	newTerm = gdb.nodes.create(
 		termName = term_name,
-		termLength = len(term_name)
+		termLength = len(term_name.split(' '))
 	)
+
+	newTerm.labels.add("Term")
 
 # 	#Creats the relationship between a term and its accosiated glossary
 # 	newTerm.relationships.create("", )  #coneptannotation 
