@@ -51,16 +51,14 @@ for domain_obj in glossary.findall("GlossaryRef"):
 
 
 # #Parses the glossary to get each term and its associated concepts 
-# for entry_obj in glossary.findall("GlossaryRef"):
+for entry_obj in glossary.findall("Entry"):
 	
-# 	term_name = entry_obj.find("Term").text.lower()
+	term_name = entry_obj.find("Term").text.lower()
 	
-# 	newTerm = gdb.nodes.create(
-# 		termName = term_name,
-# 		glossary = ,
-# 		termLength = len(term_name)
-
-# 	)
+	newTerm = gdb.nodes.create(
+		termName = term_name,
+		termLength = len(term_name)
+	)
 
 # 	#Creats the relationship between a term and its accosiated glossary
 # 	newTerm.relationships.create("", )  #coneptannotation 
@@ -158,4 +156,4 @@ for domain_obj in glossary.findall("GlossaryRef"):
 # 	#Increment row index
 # 	index ++
 
-# print "Done"
+print "Done"
